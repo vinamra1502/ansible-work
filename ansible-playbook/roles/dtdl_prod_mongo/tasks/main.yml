@@ -1,0 +1,6 @@
+---
+# tasks file for dt_cms_mongodb
+- include_tasks: install.yml
+  tags: ['mongo_install']
+- include_tasks: configure.yml
+  tags: ['mongo_config']

@@ -1,0 +1,4 @@
+kafka_ip: 172.16.75.82
+kafka_broker_id: 1
+zoo_id: 1
+kafka_lb_port: 9093

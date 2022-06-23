@@ -1,0 +1,9 @@
+---
+# defaults file for dtdl_dev_mongo
+mongo_port_number: 27017
+bind_ip: 0.0.0.0
+KeyFilePath: "/opt/mongokey"
+replica_set_name: "tv-prod"
+mongo_db_key_file: "tvprod.keyfile.j2"
+mongo_db_config_template: "mongod.conf.j2"
+journalEnabled: "true"

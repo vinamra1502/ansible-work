@@ -1,0 +1,9 @@
+---
+- name: set ha policy
+  rabbitmq_policy:
+      name: LoggingInfra 
+      pattern: "^logging" 
+      vhost: / 
+      tags:
+        ha-mode: all
+      state: present 

@@ -1,0 +1,8 @@
+[sharedkafkadtdl_prod:vars]
+ansible_connection=ssh
+ansible_user=root
+
+[sharedkafkadtdl_prod]
+sharedkafkadtdl_prod-1 ansible_ssh_host=172.30.105.82
+sharedkafkadtdl_prod-2 ansible_ssh_host=172.30.105.149
+sharedkafkadtdl_prod-3 ansible_ssh_host=172.30.105.233

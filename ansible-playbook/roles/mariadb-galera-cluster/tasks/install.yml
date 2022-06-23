@@ -1,0 +1,10 @@
+- name: Install mariadb"
+  apt:
+    name:
+      [
+        "mariadb-server",
+        "rsync"
+      ]
+    state: present
+    install_recommends: no
+    allow_unauthenticated: yes

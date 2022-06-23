@@ -1,0 +1,8 @@
+[tvkafkadtdl_dev:vars]
+ansible_connection=ssh
+ansible_user=root
+
+[tvkafkadtdl_dev]
+tvkafkadtdl_dev-1 ansible_ssh_host=172.16.75.82
+tvkafkadtdl_dev-2 ansible_ssh_host=172.16.78.161
+tvkafkadtdl_dev-3 ansible_ssh_host=172.16.82.74

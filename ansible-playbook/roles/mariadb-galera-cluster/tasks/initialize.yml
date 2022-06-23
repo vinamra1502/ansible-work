@@ -1,0 +1,35 @@
+---
+# - name: Checking if already initialize
+#   stat:
+#     path: /project/decodingdevops.txt
+#   register: result
+
+# - name: Creating if not exist
+#   commannd: touch /tmp/decodingdevops123.txt
+#   when: result.stat.exists == false
+- name: Check if MariaDB already initialised
+  stat:
+    path: /var/lib/initialise_mariadb.txt
+  register: mariadb_initialise_result
+
+
+### Stop all mariadb host service when not initialized
+- name: Stop service mariadb, if started
+  service:
+    name: mysqld
+    state: stopped
+  when: not mariadb_initialise_result.stat.exists
+
+### initialize on main master node
+- name: "initialise mariadb on main master"
+  shell: "(galera_new_cluster)"
+  when: ansible_all_ipv4_addresses[0] == mariadb_master and not mariadb_initialise_result.stat.exists
+  register: galera_initialise_result
+  #shell: "(mysqld -umysql --wsrep-new-cluster >> /tmp/mariadb_initialise.log 2>&1 &) && sleep 10 && kill `pidof mysqld`"
+
+### however ,initialisation file is required only on main master
+- name: "Creating initialisation file on all masters"
+  file:
+    path: /var/lib/initialise_mariadb.txt
+    state: touch
+  when: not mariadb_initialise_result.stat.exists

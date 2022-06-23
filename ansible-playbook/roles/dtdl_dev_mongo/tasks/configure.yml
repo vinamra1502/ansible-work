@@ -1,0 +1,19 @@
+---
+- name: "configure mongodb config file"
+  template:
+    src: "{{mongo_db_config_template}}"
+    dest: /opt/mongodb_config
+    force: yes
+    backup: yes
+- name: "add mongodb keyfile"
+  template:
+    src: "{{mongo_db_key_file}}"
+    dest: "{{KeyFilePath}}"
+    owner: mongodb
+    group: mongodb
+    force: yes
+    mode: 0600
+- name: "Link /opt/mongodb_config"
+  file: path=/etc/mongod.conf state=link src=/opt/mongodb_config force=yes
+  notify: restart mongodb
+

@@ -1,0 +1,92 @@
+---
+
+  - name: Create virtual hosts For master
+    rabbitmq_vhost:
+      name: "{{ item }}"
+      tracing: no
+      state: present
+    with_items:
+     - tv.hu
+
+
+  - name: Add RabbitMQ Admin user
+    rabbitmq_user:
+      user: admin
+      password: "u7AEhNXAYcmzBFHK5gmY4rFTG4"
+      tags: administrator
+      vhost: "{{ item }}"
+      configure_priv: .*
+      read_priv: .*
+      write_priv: .*
+      state: present
+    with_items:
+        - /
+        - tv.hu
+
+
+
+  - name: Create User For Natco
+    rabbitmq_user:
+     user: "{{ item.user }}"
+     password: "{{ item.passwd }}"
+     vhost: "{{ item.vhost }}"
+     configure_priv: .*
+     tags: natco
+     read_priv: .*
+     write_priv: .*
+     state: present
+    with_items:
+        - { user: tv.hu, passwd: hChN8FkjN6rrE, vhost: tv.hu }
+
+  - name: Create Exchange For Natco
+    rabbitmq_exchange:
+        name: "{{ item.name }}"
+        exchange_type: "{{ item.type }}"
+        durable: true
+        vhost: "{{ item.vhost }}"
+        login_user: admin
+        login_password: u7AEhNXAYcmzBFHK5gmY4rFTG4
+        auto_delete: no
+        state: present
+    with_items:
+         - { name: tv-event-hu, type: fanout,  vhost: tv.hu }
+         - { name: tv-waf-hu, type: fanout,  vhost: tv.hu }
+  - name: Create Queue For Natco
+    rabbitmq_queue:
+        name: "{{ item.name }}"
+        durable: true
+        vhost: "{{ item.vhost }}"
+        login_user: admin
+        login_password: u7AEhNXAYcmzBFHK5gmY4rFTG4
+        auto_delete: no
+        state: present
+    with_items:
+         - { name: tv-event,  vhost: tv.hu }
+         - { name: tv-waf,  vhost: tv.hu }
+  - name: Create binding For Natco
+    rabbitmq_binding:
+        name: "{{ item.exchange_name }}"
+        destination_type: queue
+        destination: "{{ item.queue_name }}"
+        vhost: "{{ item.vhost }}"
+        login_user: admin
+        login_password: u7AEhNXAYcmzBFHK5gmY4rFTG4
+        routing_key: "{{ item.key }}"
+        state: present
+    with_items:
+         - { exchange_name: tv-event-hu, queue_name: tv-event, vhost: tv.hu, key: event-logstash }
+         - { exchange_name: tv-waf-hu, queue_name: tv-waf, vhost: tv.hu, key: waf-logstash }
+  - name: Create HA set_policy
+    rabbitmq_policy:
+        name: "{{ item.name }}"
+        pattern: .*
+        apply_to: all
+        state: present
+        vhost: "{{ item.vhost }}"
+    args:
+      tags:
+        ha-mode: all
+        ha-sync-mode: automatic
+    with_items:
+        - { name: head, vhost: / }
+        - { name: hu,    vhost: tv.hu }

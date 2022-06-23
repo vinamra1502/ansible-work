@@ -1,0 +1,10 @@
+dataDir={{ zk_data_dir }}
+clientPort={{ zk_client_port }}
+maxClientCnxns=0
+initLimit=5
+syncLimit=2
+tickTime=2000
+# list of servers
+server.1={{ zk_ip_1 }}:2888:3888
+server.2={{ zk_ip_2 }}:2888:3888
+server.3={{ zk_ip_3 }}:2888:3888

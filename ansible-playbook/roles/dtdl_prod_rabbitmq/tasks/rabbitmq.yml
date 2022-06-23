@@ -1,0 +1,88 @@
+---
+  - name: Update all packages
+    shell: apt-get update
+
+  - name: Install base packages
+    apt:
+      name: "{{ item }}"
+      state: installed
+    with_items:
+       - python-pip
+       - curl
+    tags: packages
+
+  - name: Install Python dependency
+    pip:
+      name: requests
+      state: latest
+
+  - name: Verify Python is installed
+    apt:  pkg=python-software-properties state=present
+
+  - name: Add RabbitMQ official repo
+    apt_repository:
+      repo: deb https://dl.bintray.com/rabbitmq/debian xenial main
+      state: present
+      filename: rabbitmq
+
+  - name: Install RabbitMQ public key
+    apt_key:
+      url: https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+      state: present
+
+  - name: Add Erlang offical repo
+    apt_repository:
+      repo: deb http://binaries.erlang-solutions.com/debian xenial contrib
+      state: present
+      filename: erlang
+
+  - name: Install Erlang public key
+    apt_key:
+      url: http://binaries.erlang-solutions.com/debian/erlang_solutions.asc
+      state: present
+
+  - name: Install RabbitMQ package
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+      install_recommends: yes
+      state: present
+    with_items:
+      - rabbitmq-server
+
+  - name: Enable RabbitMQ plugins
+    rabbitmq_plugin:
+      names: rabbitmq_auth_mechanism_ssl,rabbitmq_consistent_hash_exchange,rabbitmq_management,rabbitmq_peer_discovery_aws,rabbitmq_prometheus
+      state: enabled
+    notify:
+      - restart rabbitmq
+
+  - name: Copy Rabbitmq Configfile
+    template:
+      src: rabbitmq.config.j2
+      dest: /etc/rabbitmq/rabbitmq.conf
+      owner: root
+      group: rabbitmq
+      mode: '644'
+      backup: yes
+    notify:
+      - restart rabbitmq
+
+  - name: Copy Erlang  cookie
+    template:
+       src: erlang.cookie.j2
+       dest: /var/lib/rabbitmq/.erlang.cookie
+       owner: rabbitmq
+       group: rabbitmq
+       mode: '400'
+       backup: yes
+    notify:
+       - restart rabbitmq
+  - name: restart rabbitmq-server service
+    service:
+         name: rabbitmq-server
+         state: restarted
+  - name: Remove default user
+    rabbitmq_user:
+      user: guest
+      state: absent

@@ -1,0 +1,17 @@
+---
+kafka_zookeeper_list: "172.30.105.82:2181,172.30.105.149:2181,172.30.105.233:2181"
+kafka_url: "https://archive.apache.org/dist/kafka/2.1.0/kafka_2.12-2.1.0.tgz"
+
+kafka_broker_port: 9092
+kafka_lb_dns: kafka.shared.yo-digital.com
+zk_data_dir: /var/lib/zookeeper
+zk_client_port: 2181
+zk_ip_1: 172.30.105.82
+zk_ip_2: 172.30.105.149
+zk_ip_3: 172.30.105.233
+kafka_super_user: admin
+kafka_listner_security_protocol: SASL_PLAINTEXT
+kafka_sasl_internal_broker_protocol: PLAIN
+kafka_sasl_mechanism: PLAIN
+kafka_data_dir: /var/lib/kafka
+kafka_version: 2.12-2.1.0

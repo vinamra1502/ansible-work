@@ -1,0 +1,4 @@
+- hosts: tvmongodev
+  roles:
+    - { role: roles/dtdl_dev_mongo, tags: ["mongo"]}
+  become: True

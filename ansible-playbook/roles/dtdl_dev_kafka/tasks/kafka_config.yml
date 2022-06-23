@@ -1,0 +1,21 @@
+---
+- name: "configure kafka server properties"
+  template:
+    src: server.properties.j2
+    dest: /opt/kafka_{{ kafka_version }}/config/server.properties
+    backup: yes
+- name: "configure zookeeper  properties"
+  template:
+    src: zookeeper.properties.j2
+    dest: /opt/kafka_{{ kafka_version }}/config/zookeeper.properties
+    backup: yes
+- name: "configure zk id"
+  template:
+    src: myid.j2
+    dest: "{{ zk_data_dir }}/myid"
+    backup: no
+- name: "configure kafka Jass"
+  template:
+    src: kafka_server_jaas.conf.j2
+    dest: /opt/kafka_{{ kafka_version }}/config/kafka_server_jaas.conf
+    backup: yes

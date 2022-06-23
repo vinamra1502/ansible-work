@@ -1,0 +1,5 @@
+[tvmqttdev]
+172.16.78.102
+[tvmqttdev:vars]
+ansible_connection=ssh
+ansible_user=ubuntu

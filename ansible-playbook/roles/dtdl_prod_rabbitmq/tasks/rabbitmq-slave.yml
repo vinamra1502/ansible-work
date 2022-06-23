@@ -1,0 +1,17 @@
+
+    - name: rabbitmq_clustering | restarting rabbitmq-server on slave
+      service: name=rabbitmq-server state=restarted
+
+    - name: rabbitmq clustering | stop rabbitmq app
+      command: rabbitmqctl stop_app
+      register: cluster_master
+
+    - name: rabbitmq_clustering | resetting rabbitmq app
+      command: rabbitmqctl reset
+    
+
+    # - name: rabbitmq clustering | joining cluster
+    #   command: rabbitmqctl join_cluster --ram rabbit@ip-172-22-15-220
+    - name: rabbitmq clustering | start rabbitmq app
+      command: rabbitmqctl start_app
+      register: cluster_master

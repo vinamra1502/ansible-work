@@ -1,0 +1,101 @@
+---
+- name: Create virtual hosts For Mqtt
+  rabbitmq_vhost:
+      name: "{{ item }}"
+      tracing: no
+      state: present
+  with_items:
+
+     - tv_prod
+
+
+
+
+- name: configure admin user for rabbitmq
+  rabbitmq_user:
+    user: longest_username_possible_for_admin
+    password: eveU2dzPlhPBcBMc
+    vhost: "{{ item }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    update_password: always
+    tags: administrator
+    state: present
+  with_items:
+        - /
+
+        - tv_prod
+- name: delete guest user
+  rabbitmq_user:
+    user: "guest"
+    state: absent
+# - name: Create virtual hosts For Mqtt
+#   rabbitmq_vhost:
+#       name: "{{ item }}"
+#       tracing: no
+#       state: present
+#   with_items:
+#      - tv_dev
+#      - tv_prod
+- name: Create User For Mqtt
+  rabbitmq_user:
+     user: "{{ item.user }}"
+     password: "{{ item.passwd }}"
+     vhost: "{{ item.vhost }}"
+     configure_priv: .*
+     tags: natco
+     read_priv: ""
+     write_priv: "amq.topic"
+     state: present
+  with_items:
+        - { user: natco_hu, passwd:  eb85P3fVD2NLskMfRBbw, vhost: tv_prod }
+        - { user: natco_at, passwd:  hTAOilaQ5oHA83ktIboz, vhost: tv_prod }
+
+- name: Create Queue For Mqtt
+  rabbitmq_queue:
+        name: "{{ item.name }}"
+        durable: true
+        vhost: "{{ item.vhost }}"
+        login_user: longest_username_possible_for_admin
+        login_password: eveU2dzPlhPBcBMc
+        auto_delete: no
+        state: present
+  with_items:
+         - { name: tv_natco_hu_event,  vhost: tv_prod }
+         - { name: tv_natco_hu_performance,  vhost: tv_prod}
+         - { name: tv_natco_at_event,  vhost: tv_prod }
+         - { name: tv_natco_at_performance,  vhost: tv_prod}
+
+- name: Create binding For Mqtt
+  rabbitmq_binding:
+        name: "{{ item.exchange_name }}"
+        destination_type: queue
+        destination: "{{ item.queue_name }}"
+        vhost: "{{ item.vhost }}"
+        login_user: longest_username_possible_for_admin
+        login_password: eveU2dzPlhPBcBMc
+        routing_key: "{{ item.key }}"
+        state: present
+  with_items:
+         - { exchange_name: amq.topic, queue_name: tv_natco_hu_event, vhost: tv_prod, key: tv.natco.hu.event }
+         - { exchange_name: amq.topic, queue_name: tv_natco_hu_performance, vhost: tv_prod, key: tv.natco.hu.performance }
+         - { exchange_name: amq.topic, queue_name: tv_natco_at_event, vhost: tv_prod, key: tv.natco.at.event }
+         - { exchange_name: amq.topic, queue_name: tv_natco_at_performance, vhost: tv_prod, key: tv.natco.at.performance }
+
+
+- name: Create HA set_policy
+  rabbitmq_policy:
+        name: "{{ item.name }}"
+        pattern: .*
+        apply_to: all
+        state: present
+        vhost: "{{ item.vhost }}"
+  args:
+      tags:
+        ha-mode: all
+        ha-sync-mode: automatic
+  with_items:
+        - { name: head, vhost: / }
+
+        - { name: hu,    vhost: tv_prod }

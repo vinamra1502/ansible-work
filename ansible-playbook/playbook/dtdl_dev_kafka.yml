@@ -1,0 +1,6 @@
+- hosts: tvkafkadtdl_dev
+  roles:
+    - { role: roles/dtdl_dev_kafka, tags: ["kafka"] }
+   # - { role: rsyslog_json, tags: ["rsyslogjson"] }
+  #    - { role: zabbix_user_parameter, tags: ["redis_zabbix"]}
+  become: True

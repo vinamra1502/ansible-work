@@ -1,0 +1,11 @@
+---
+- name: configure admin user for rabbitmq
+  rabbitmq_user:
+    user: longest_username_possible_for_admin
+    password: eveU2dzPlhPBcBMc
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    update_password: always
+    tags: administrator
+    state: present

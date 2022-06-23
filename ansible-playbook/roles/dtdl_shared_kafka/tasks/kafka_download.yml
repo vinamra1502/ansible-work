@@ -1,0 +1,7 @@
+---
+- name: Unarchive kafka
+  unarchive:
+    src: "{{ kafka_url }}"
+    dest: /opt/
+    remote_src: yes
+    creates: /opt/kafka_{{ kafka_version }}

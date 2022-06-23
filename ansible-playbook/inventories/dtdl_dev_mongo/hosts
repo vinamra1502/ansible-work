@@ -1,0 +1,7 @@
+[tvmongodev]
+172.16.72.70
+172.16.79.188
+172.16.81.166
+[tvmongodev:vars]
+ansible_connection=ssh
+ansible_user=ubuntu

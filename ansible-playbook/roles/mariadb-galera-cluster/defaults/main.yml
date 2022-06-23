@@ -1,0 +1,11 @@
+---
+# defaults file for mariadb-galera-cluster
+mariadb_redhat_repo: "http://yum.mariadb.org/{{ mariadb_version }}/centos6-amd64"
+mariadb_redhat_repo_key: "https://yum.mariadb.org/RPM-GPG-KEY-MariaDB"
+
+#mariadb_server_rpm: "http://mirror.truenetwork.ru/mariadb//mariadb-{{ mariadb_version }}/yum/centos6-amd64/rpms/MariaDB-{{ mariadb_version }}-centos6-x86_64-server.rpm"
+mariadb_server_rpm: "http://mirror.truenetwork.ru/mariadb//mariadb-10.4.12/yum/centos6-amd64/rpms/MariaDB-10.4.12-centos6-x86_64-server.rpm"
+mariadb_client_rpm: "http://mirror.truenetwork.ru/mariadb//mariadb-{{ mariadb_version }}/yum/centos6-amd64/rpms/MariaDB-{{ mariadb_version }}-centos6-x86_64-client.rpm"
+mariadb_galera_rpm: "http://mirror.truenetwork.ru/mariadb//mariadb-{{ mariadb_version }}/yum/centos6-amd64/rpms/galera-4-26.4.3-1.rhel6.el6.x86_64.rpm"
+# mariadb_version
+mariadb_version: "10.4.12"

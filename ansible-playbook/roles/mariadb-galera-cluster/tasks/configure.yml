@@ -1,0 +1,16 @@
+---
+- name: configure MariaDB Properties
+  template:
+    src: "my.cnf.j2"
+    dest: "/etc/mysql/my.cnf"
+    owner: "root"
+    group: "root"
+  become: true
+
+- name: configure galera Properties
+  template:
+    src: "galera_cluster_config.cnf.j2"
+    dest: "/etc/mysql/conf.d/galera_cluster_config.cnf"
+    owner: "root"
+    group: "root"
+  become: true

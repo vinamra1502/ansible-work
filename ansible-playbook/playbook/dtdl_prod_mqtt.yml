@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: true
+  roles:
+      - { role: roles/dtdl_prod_events/rabbitmq }
+      - { role: roles/dtdl_prod_events/mqtt }
+      - { role: roles/dtdl_prod_events/user }

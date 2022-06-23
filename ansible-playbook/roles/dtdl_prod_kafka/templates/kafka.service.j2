@@ -1,0 +1,13 @@
+[Unit]
+Description=High-available, distributed message broker
+After=network.target
+Requires=zookeeper.service
+[Service]
+Type=simple
+User=root
+Environment=KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka_{{ kafka_version }}/config/kafka_server_jaas.conf
+ExecStart=/opt/kafka_{{ kafka_version }}/bin/kafka-server-start.sh /opt/kafka_{{ kafka_version }}/config/server.properties
+ExecStop=/opt/kafka_{{ kafka_version }}/bin/kafka-server-stop.sh
+[Install]
+WantedBy=multi-user.target
+Alias=kafka.service

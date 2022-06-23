@@ -1,0 +1,6 @@
+- hosts: tvmariadbprod
+  roles:
+    - { role: roles/mariadb-galera-cluster, tags: ["mariadb"] }
+   # - { role: rsyslog_json, tags: ["rsyslogjson"] }
+  #    - { role: zabbix_user_parameter, tags: ["redis_zabbix"]}
+  become: True

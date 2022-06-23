@@ -1,0 +1,8 @@
+[tvkafkadtdl_prod:vars]
+ansible_connection=ssh
+ansible_user=root
+
+[tvkafkadtdl_prod]
+tvkafkadtdl_prod-1 ansible_ssh_host=172.21.73.188
+tvkafkadtdl_prod-2 ansible_ssh_host=172.21.77.69
+tvkafkadtdl_prod-3 ansible_ssh_host=172.21.83.223

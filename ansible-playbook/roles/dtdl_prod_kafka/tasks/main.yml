@@ -1,0 +1,20 @@
+---
+- include: kafka_requirement.yml
+  tags:
+    - kafkabasic
+- include: kafka_download.yml
+  tags:
+    - kafkadownload
+- include: kafka_config.yml
+  tags:
+     - kafkaconfig
+- include: zookeeper_service.yml
+  tags:
+     - zookeeperservice
+- include: kafka_service.yml
+  tags:
+     - kafkaservice
+#   when: setup_ssl is defined
+# - include: setup_jaas.yml
+#   tags: jaas
+#   when: setup_jaas is defined

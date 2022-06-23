@@ -1,0 +1,8 @@
+[tvmqttprod]
+172.21.80.7
+[tvmqttprod:vars]
+ansible_connection=ssh
+ansible_user=ubuntu
+
+
+#localhost   ansible_connection=local

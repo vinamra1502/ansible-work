@@ -1,0 +1,15 @@
+---
+# tasks file for dt_mqtt
+- name : Add mosqutto repo
+  apt_repository:
+    repo: ppa:mosquitto-dev/mosquitto-ppa
+    state: present
+- name: Install mosquitto
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mosquitto
+    - libmosquitto-dev
+    - mosquitto-clients

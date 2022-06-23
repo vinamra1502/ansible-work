@@ -1,0 +1,41 @@
+## Main master required to initialise cluster
+mariadb_master: "172.21.82.132"
+
+## Minimum two master including main master
+mariadb_other_masters: "172.21.82.132,172.21.78.41"
+
+galera_cluster_nodes_group: "tv_prod_mariadb"
+galera_cluster_name: "tv-prod-mariadb-cluster"
+innodbbufferpoolsize: "1G"
+innodbflushlogattrxcommit: "0"
+mysql_max_connections: "200"
+slow_query_log_path: "/var/log/mysql/slow-query.log"
+slow_query_enable: "1"
+long_query_time: "1.0"
+
+
+
+
+mysql_databases:
+  - name: tv_event
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+  - name: tv_configserver
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+
+
+
+mysql_users:
+  - name: zabbix_admin
+    host: "localhost"
+    password: tv_possw0rd
+    priv: "*.*:USAGE,REPLICATION SLAVE,REPLICATION CLIENT"
+  - name: tv_event_prod
+    host: "%"
+    password: yuhtrewqazxcdfgbv
+    priv: "tv_event.*:ALL"
+  - name: tv_configserver_prod
+    host: "%"
+    password: vbyttrewqaghqae
+    priv: "tv_configserver.*:ALL"

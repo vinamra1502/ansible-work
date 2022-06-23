@@ -1,0 +1,5 @@
+[tvrabbitmqdev]
+172.16.72.233
+[tvrabbitmqdev:vars]
+ansible_connection=ssh
+ansible_user=root

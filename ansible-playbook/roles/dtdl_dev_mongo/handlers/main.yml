@@ -1,0 +1,4 @@
+---
+# handlers file for dt_cms_mongodb
+- name: restart mongodb
+  service: name=mongod state=restarted

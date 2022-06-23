@@ -1,0 +1,12 @@
+- name: "configure systemd file for zookeeper"
+  template:
+    src: zookeeper.service.j2
+    dest: "/etc/systemd/system/zookeeper.service"
+  # notify:
+  #   - Restart ZooKeeper service
+- name: Start the ZooKeeper service
+  systemd:
+    name: zookeeper.service
+    state: started
+    enabled: yes
+    daemon_reload: yes

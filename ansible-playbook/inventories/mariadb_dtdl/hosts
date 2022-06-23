@@ -1,0 +1,9 @@
+[tvmariadbprod_dtdl:vars]
+ansible_connection=ssh
+ansible_user=ubuntu
+
+[tvmariadbprod_dtdl]
+#tvmariadbprod_dtdl-0 ansible_ssh_host=172.21.82.154 ansible_ssh_user=ubuntu
+#tvmariadbprod_dtdl-1 ansible_ssh_host=172.21.76.10 ansible_ssh_user=ubuntu
+172.21.82.132
+172.21.78.41
